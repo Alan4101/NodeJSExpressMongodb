@@ -1,90 +1,111 @@
 const express = require('express');
-const MongodbClient = require('mongodb').MongoClient;
-const objId = require('mongodb').ObjectID;
-
-//const database = require('./database');
-
+const mongoose =  require('mongoose');
+const Schema = mongoose.Schema;
 const app = express();
 const jsonParser = express.json();
-const url = "mongodb://localhost:27017/";
 
-const mongoClient = new MongodbClient(url, {useNewUrlParser: true});
+const url = "mongodb://localhost:27017/usersdb";
+const userSchema = new Schema({
+    name: String,
+    age: Number},
+    { versionKey: false});
 
-let dbClient;
+const userAuthSchema = new Schema({
+        email: {
+            type: String
+        },
+        firstName: String,
+        lastName: String,
+        ageU: Number,
+        password: String
+    },
+    {versionKey: false});
+
+const User = mongoose.model('User', userSchema);
+const Registration = mongoose.model('Registration', userAuthSchema);
 
 app.use(express.static(__dirname + '/public'));
+app.set('view engine', 'ejs');
 
-mongoClient.connect((err, client)=>{
-   if(err) return console.log(err);
-   dbClient = client;
-   app.locals.collection = client.db("usersdb").collection('users');
+app.get('/reg', (req, res)=> res.render('reg'));
+app.get('/autorization', (req, res)=> res.render('autorization'));
+// app.get('/', (req, res) => res.render());
 
-   app.listen(3000, ()=> console.log("Server wait connection..."))
+mongoose.connect(url, {useNewUrlParser: true }, (err)=>{
+    if(err) return console.log(err);
+
+    app.listen(3000, ()=> console.log('Server wait connection..'));
 });
-//знайти всых
-app.get("/api/users", function (req, res){
-    const coll = req.app.locals.collection;
-    coll.find({}).toArray((err, user)=>{
-       if(err) console.log(err);
-        res.send(user);
-    });
+app.post('/api/registrations', jsonParser, (req, res)=>{
+    if(!req.body) return res.sendStatus(400);
+
+    const email = req.body.email;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const age = req.body.ageU;
+    const pass = req.body.password;
+
+    const userA = new Registration({email: email, firstName: firstName, lastName: lastName, ageU: age, password: pass});
+    userA.save((err)=>{
+        if(err) return console.log(err);
+        res.send(userA)
+    })
 
 });
-//знайти одного юзера
-app.get("/api/users/:id", (req, res)=>{
-    const id = new objId(req.params.id);
-    const coll = req.app.locals.collection;
+app.get('/api/registration', (req, res)=>{
+   UserAth.find({}, (err, users)=>{
+       if(err) return console.log(err);
+       res.send(users);
+       console.log(users);
+   })
+});
 
-    coll.findOne({_id: id}, (err, user)=> {
-        if(err) console.log(err);
-        res.send(user);
+
+
+app.get('/api/users/', (req, res)=>{
+   User.find({},(err, users)=>{
+       if(err) return console.log(err);
+       res.send(users);
+   })
+});
+app.get('/api/users/:id', (req, res)=>{
+   const id = req.params.id;
+    User.findOne({_id: id}, (err, user)=>{
+        if(err) return console.log(err);
+        res.send(user)
     })
 });
-//створення нового
-app.post("/api/users", jsonParser, (req, res)=>{
+app.post('/api/users', jsonParser, (req, res)=>{
    if(!req.body) return res.sendStatus(400);
 
    const userName = req.body.name;
    const userAge = req.body.age;
-   const user = {name: userName, age: userAge};
+   const user = new User({name: userName, age: userAge});
 
-   const coll = req.app.locals.collection;
-   coll.insertOne(user,(err, result)=>{
-       if(err) console.log(err);
+    user.save((err)=>{
+       if(err) return console.log(err);
+       res.send(user)
+        console.log(user);
+    })
+});
+app.delete('/api/users/:id', (req, res)=>{
+   const id = req.params.id;
+   User.findByIdAndDelete(id, (err, user)=>{
+       if(err) return console.log(err);
        res.send(user);
    })
 });
-//видалення
-app.delete("/api/users/:id", (req, res)=>{
-   const id = new objId(req.params.id);
-   const coll = req.app.locals.collection;
+app.put('/api/users', jsonParser, (req, res)=>{
+   if(!req.body) return res.sendStatus(400);
 
-   coll.findOneAndDelete({_id: id}, (err, result)=>{
-        if(err) console.log(err);
-        let user = result.value;
-        res.send(user);
+   const id = req.body.id;
+   const userName = req.body.name;
+   const userAge = req.body.age;
+   const newUser = User({_id: id, name: userName, age: userAge});
+
+   User.findOneAndUpdate({_id: id}, newUser, {new: true}, (err, user)=>{
+       if(err) return console.log(err);
+       res.send(user);
    })
 });
-//редагування корстувача
-app.put("/api/users", jsonParser, (req, res)=>{
-    if(!req.body) return res.sendStatus(400);
 
-    const id = new objId(req.body.id);
-    const userName = req.body.name;
-    const userAge = req.body.age;
-
-    const coll = req.app.locals.collection;
-
-    coll.findOneAndUpdate({_id: id}, { $set: {name: userName, age: userAge}},{returnOriginal: false},
-        (err, result)=>{
-        if(err) return console.log(err);
-            const user = result.value;
-            console.log(user);
-            res.send(user);
-    })
-});
-
-process.on("SIGINT", ()=>{
-   dbClient.close();
-   process.exit();
-});
