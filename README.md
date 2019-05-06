@@ -1,19 +1,19 @@
 # Remember password - **Learning project**
-###Project using:
+### Project using:
 
 - **NodeJs;** 
 - **Mongodb**
 
-###Contain page:
+### Contain page:
 - Main;
 - Authorization;
 - Registration.
 
-###Description
+### Description
 Remember password it`s  resource, where you can write something 
 information about the site, where you have registered. 
 
-###Purpose 
+### Purpose 
 - CRUD nodeJs
 - Mongoose
 - Router nodejs
