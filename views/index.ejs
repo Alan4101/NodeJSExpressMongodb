@@ -1,1 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Main</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style/style.css">
 
+</head>
+<body>
+<%- include('blocks/headers'); -%>
+<div class="container">
+    <form name="userForm">
+        <div class="form-group">
+            <label for="idUser">ID</label>
+            <input type="hidden" class="form-control" id="idUser" name="id" placeholder="id">
+        </div>
+        <div class="form-group">
+            <label for="leSite">Site</label>
+            <input type="text" class="form-control" id="leSite" name="name"  placeholder="Site">
+        </div>
+        <div class="form-group">
+            <label for="leLogin">Login</label>
+            <input type="text" class="form-control" id="leLogin" name="login" placeholder="Login">
+        </div>
+        <div class="form-group">
+            <label for="lePass">Password</label>
+            <input type="text" class="form-control" id="lePass" name="pass" placeholder="Password">
+        </div>
+
+        <button type="reset" class="btn btn-primary">Clear</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <h2 style="text-align: center">List</h2>
+    <table class="table table-condensed table-striped table-bordered">
+        <thead><tr><th>Site</th><th>Login</th><th>Password</th><th></th></tr></thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<%- include('blocks/footer'); -%>
+<script src="/js/script.js"></script>
+</body>
+</html>

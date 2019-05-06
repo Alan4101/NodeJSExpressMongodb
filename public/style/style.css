@@ -1,6 +1,46 @@
 body{
     text-align: center;
 }
+label{
+    color: #fff;
+}
+.nav li{
+    display: inline-block;
+    margin: 10px;
+}
+.nav li a{
+    text-decoration: none;
+    color: white;
+}
 .nav-c{
-
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    height: 60px;
+    background: rgba(16, 0, 32, 0.89);
+}
+.regisr-form{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.form-group{
+    margin: 10px;
+    width: 45%;
+}
+p{
+    font-weight: 600;
+    text-align: center;
+}
+.btn-box{
+    margin: 20px;
+    width: 100%;
+    text-align: center;
+}
+.contaiter-fluid{
+    height: 100vh;
+    background: url("../img/sp.gif") no-repeat center;
+    background-size: cover;
+    max-width: 100%;
 }

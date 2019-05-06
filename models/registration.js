@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const userAuthSchema = new Schema({
         email: {
-            type: String
+            type: String,
+            required: true
         },
         firstName: String,
         lastName: String,

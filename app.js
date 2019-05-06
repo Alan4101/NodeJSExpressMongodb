@@ -10,13 +10,13 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.use('/api', router.auth);
-app.use('/api', router.user);
+app.use('/api', router.doc);
 app.use(express.static(__dirname + '/public'));
 
 
 app.get('/reg', (req, res)=> res.render('reg'));
 app.get('/autorization', (req, res)=> res.render('autorization'));
-// app.get('/', (req, res) => res.render());
+app.get('/', (req, res) => res.render('index'));
 
 mongoose.Promise = global.Promise;
 mongoose.set('debug', config.IS_PRODUCTION);

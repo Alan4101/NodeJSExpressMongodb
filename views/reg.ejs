@@ -2,63 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
     <title>Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style/style.css">
+
 </head>
-<style>
-    .regisr-form{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-    .form-group{
-        margin: 10px;
-        width: 45%;
-    }
-    p{
-        font-weight: 600;
-        text-align: center;
-    }
-    .btn-box{
-        margin: 20px;
-        width: 100%;
-        text-align: center;
-    }
-</style>
 <body>
 <%- include('blocks/headers'); -%>
+<div class="contaiter-fluid">
+    <div class="container">
+        <form class="regisr-form" name="regForm">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+                <label for="firstname">First Name</label>
+                <input type="text" name="firstName" class="form-control" id="firstname" placeholder="First Name">
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last Name</label>
+                <input type="text" name="lastName" class="form-control" id="lastname" placeholder="Last Name">
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="text" name="ageU" class="form-control" id="age" placeholder="Age">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <div class="btn-box">
+                <button type="reset" class="btn btn-primary">Clear</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
 
-<div class="container">
-    <form class="regisr-form" name="regForm">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-            <label for="firstname">First Name</label>
-            <input type="text" name="firstName" class="form-control" id="firstname" placeholder="First Name">
-        </div>
-        <div class="form-group">
-            <label for="lastname">Last Name</label>
-            <input type="text" name="lastName" class="form-control" id="lastname" placeholder="Last Name">
-        </div>
-        <div class="form-group">
-            <label for="age">Age</label>
-            <input type="text" name="ageU" class="form-control" id="age" placeholder="Age">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-        <div class="btn-box">
-            <button type="reset" class="btn btn-primary">Clear</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
+        </form>
+    </div>
 
-    </form>
+
 </div>
-
 
 <%- include('blocks/footer'); -%>
 

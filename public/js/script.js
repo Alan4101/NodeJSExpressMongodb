@@ -3,12 +3,12 @@ $(document).ready(function () {
 
     function GetUsers() {
         $.ajax({
-            url: "/api/users",
+            url: "/api/docs",
             type: "GET",
             contentType: cType,
             success: function (users) {
                 var rows = '';
-                $.each(users, function (insex, user) {
+                $.each(users, function (index, user) {
                     rows += row(user);
                 });
                 $("table tbody").append(rows);
@@ -17,41 +17,44 @@ $(document).ready(function () {
     }
     function GetUser(id) {
         $.ajax({
-            url: "/api/users/"+id,
+            url: "/api/docs/"+id,
             type: "GET",
             contentType: cType,
             success: function (user) {
                 var form = document.forms["userForm"];
                 form.elements["id"].value = user._id;
                 form.elements["name"].value = user.name;
-                form.elements["age"].value = user.age;
+                form.elements["login"].value = user.login;
+                form.elements["pass"].value = user.pass;
             }
         })
     }
-    function CreateUser(userName, userAge) {
+    function CreateUser(siteName, login, pass ) {
         $.ajax({
-            url: "api/users",
+            url: "api/docs",
             contentType: cType,
             type: "POST",
             data: JSON.stringify({
-                name: userName,
-                age: userAge
+                name: siteName,
+                login: login,
+                pass: pass
             }),
-            success: function (user) {
+            success: function (doc) {
                 reset();
-                $("table tbody").append(row(user));
+                $("table tbody").append(row(doc));
             }
         })
     }
-    function EditUser(userId, userName, userAge){
+    function EditUser(userId, siteName, login, pass){
         $.ajax({
-            url: "api/users",
+            url: "api/docs",
             contentType: cType,
             type: "PUT",
             data: JSON.stringify({
                 id: userId,
-                name: userName,
-                age: userAge
+                name: siteName,
+                login: login,
+                pass: pass
             }),
             success: function (user) {
 
@@ -69,7 +72,7 @@ $(document).ready(function () {
 
     function DeleteUser(id) {
         $.ajax({
-            url: "api/users/"+id,
+            url: "api/docs/"+id,
             contentType: cType,
             method: "DELETE",
             success: function (user) {
@@ -80,21 +83,23 @@ $(document).ready(function () {
     };
 
     var row = function (user) {
-        return "<tr data-rowid='" + user._id + "'><td>" + user._id + "</td>" +
-            "<td>" + user.name + "</td> <td>" + user.age + "</td>" +
+        return "<tr data-rowid='" + user._id + "'>" +
+            "<td>" + user.name + "</td><td>" + user.login + "</td>" +
+            "<td>" + user.pass + "</td>"+
             "<td><a class='editLink' data-id='" + user._id + "'>Edit</a> | " +
             "<a class='removeLink' data-id='" + user._id + "'>Delete</a></td></tr>";
     }
     $('form').submit(function (e) {
         e.preventDefault();
         var id = this.elements['id'].value;
-        var name = this.elements['name'].value;
-        var age = this.elements['age'].value;
+        var name_site = this.elements['name'].value;
+        var login = this.elements['login'].value;
+        var pass = this.elements['pass'].value;
         if(id == 0){
-            CreateUser(name,age);
+            CreateUser(name_site, login, pass);
         }
         else {
-            EditUser(id, name, age);
+            EditUser(id, name_site, login, pass );
         }
 
     });

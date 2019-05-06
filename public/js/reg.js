@@ -53,11 +53,14 @@ $(document).ready(function () {
         var age = this.elements['age'].value;
         var pass = this.elements['password'].value;
 
-        RegNewUser(email, fname, lname, age, pass);
-
+        if($('input').val()=== ""){
+            alert("поля пусты")
+        }else {
+            RegNewUser(email, fname, lname, age, pass);
+        }
     });
     function reset() {
-        var form = document.forms["authForm"];
+        var form = document.forms["regForm"];
         form.reset();
     }
 });
